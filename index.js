@@ -13,7 +13,7 @@ const taskRoutes = require("./routes/taskRoutes");
 app.use(cookieParser());
 app.use(
   cors({
-    origin: "http://localhost:5173",
+    origin: "https://harshtaskmanger.netlify.app",
     credentials: true,
   })
 );
