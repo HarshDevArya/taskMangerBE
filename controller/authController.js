@@ -93,7 +93,7 @@ exports.getuser = async (req, res) => {
 
 exports.signOutUser = async (req, res) => {
   console.log("logOut");
-  res.clearCookie("jwt", {
+  res.clearCookie("token", {
     httpOnly: true,
     secure: true,
     sameSite: "None",
