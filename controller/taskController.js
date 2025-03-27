@@ -4,10 +4,28 @@ const Task = require("../models/Task");
 exports.getTasks = async (req, res) => {
   try {
     const userId = req.user.id;
-    const tasks = await Task.find({ user: userId }).sort({
-      createdAt: -1,
+    // Parse page and limit from query; set defaults if not provided
+    let { page, limit } = req.query;
+    page = parseInt(page) || 1;
+    limit = parseInt(limit) || 5;
+
+    // Calculate how many documents to skip
+    const skip = (page - 1) * limit;
+
+    // Total tasks for this user (without pagination)
+    const totalTasks = await Task.countDocuments({ user: userId });
+    // Fetch tasks with pagination
+    const tasks = await Task.find({ user: userId })
+      .sort({ createdAt: -1 })
+      .skip(skip)
+      .limit(limit);
+    // Return tasks plus pagination info
+    return res.json({
+      tasks,
+      currentPage: page,
+      totalPages: Math.ceil(totalTasks / limit),
+      totalTasks,
     });
-    return res.json({ tasks });
   } catch (error) {
     res.status(500).json({ message: "Error fetching tasks" });
   }
