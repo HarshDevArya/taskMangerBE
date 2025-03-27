@@ -10,7 +10,7 @@ const authRoutes = require("./routes/authRoutes");
 const taskRoutes = require("./routes/taskRoutes");
 
 // Middlewares
-// app.use(cookieParser());
+app.use(cookieParser());
 // app.use(
 //   cors({
 //     origin: "http://localhost:5173",
